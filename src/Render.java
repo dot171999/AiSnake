@@ -3,15 +3,15 @@ import java.awt.*;
 
 class Render extends JPanel {
 
-    private SnakeBody snakeBody = new SnakeBody();
-    private  Cheery cheery = new Cheery();
+    private SnakeBody snakeBody = new SnakeBody(); // Class that creates snake's body.
+    private  Cheery cheery = new Cheery(); // Class that randomly paints the prey.
 
     Render() {
-        setPreferredSize(new Dimension(601,681)); //Grid = 601 * 601 px
+        setPreferredSize(new Dimension(601,601)); //Grid = 601 * 601 px
         setBackground(Color.BLACK);
     }
 
-    static int box(int x){
+    static int box(int x){ // Function that return grid number from points.
         return (((x-1) * 20) + 1);
     }
 
@@ -21,7 +21,7 @@ class Render extends JPanel {
         g.setColor(Color.DARK_GRAY);
 
         int j,i,k=0;
-        for(i=0;i<31;i++){
+        for(i=0;i<31;i++){ // Paints the 30 * 30 grid
             g.drawLine(k,0,k,600);
             g.drawLine(0,k,600,k);
             for(j=0;j<19;j++) {
@@ -31,7 +31,7 @@ class Render extends JPanel {
 
         }
 
-        snakeBody.paintBody(g);
-        cheery.paintCherry(g);
+        snakeBody.paintBody(g); // function in SnakeBody class that paints the snake's parts.
+        cheery.paintCherry(g); // function in Cherry class that paints the prey.
     }
 }

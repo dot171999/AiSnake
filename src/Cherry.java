@@ -13,6 +13,7 @@ class Cheery extends Component {
         score++;
         Random ran=new Random();
         cheery.setLocation(Render.box(ran.nextInt(29) + 1),Render.box(ran.nextInt(29) + 1));
+        //cheery.setLocation(Render.box(5),Render.box(5));
     }
 
     void paintCherry(Graphics g) {

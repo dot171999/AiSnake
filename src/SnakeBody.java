@@ -19,9 +19,75 @@ class SnakeBody extends Component {
         return true;
     }
 
+    Point findMid(Point point){
+        int x,y;
+        x=(point.x + point.x + 19)/2;
+        y=(point.y + point.y + 19)/2;
+        return new Point(x,y);
+    }
+
     private void shiftDirection(){
+        Point mid = new Point();
+        Point midCherry = new Point();
+        int displacement,tempDisplacement =600;
 
         if((head.y - 1) % 20 == 0 && (head.x - 1) % 20 == 0) {
+
+            if(head.y - 20 < 1){  //UP
+
+            }else{
+
+                mid.setLocation(findMid(new Point(head.x,head.y - 20)));
+                midCherry.setLocation(findMid(Cheery.cheery));
+                displacement = (int) Math.sqrt(Math.pow(midCherry.x - mid.x,2) + Math.pow(midCherry.y - mid.y,2));
+                tempDisplacement = displacement;
+                System.out.println("UP "+displacement);
+                move = UP;
+            }
+
+            if(head.y + 20 > 600){  //DOWN
+
+            }else{
+                mid.setLocation(findMid(new Point(head.x,head.y + 20)));
+                midCherry.setLocation(findMid(Cheery.cheery));
+                displacement = (int) Math.sqrt(Math.pow(midCherry.x - mid.x,2) + Math.pow(midCherry.y - mid.y,2));
+
+                if(displacement < tempDisplacement){
+                    move = DOWN;
+                    tempDisplacement = displacement;
+                }
+                System.out.println("Down "+displacement);
+            }
+
+            if(head.x - 20 < 1){  //LEFT
+
+            }else{
+                mid.setLocation(findMid(new Point(head.x - 20,head.y)));
+                midCherry.setLocation(findMid(Cheery.cheery));
+                displacement = (int) Math.sqrt(Math.pow(midCherry.x - mid.x,2) + Math.pow(midCherry.y - mid.y,2));
+
+                if(displacement < tempDisplacement){
+                    move = LEFT;
+                    tempDisplacement = displacement;
+                }
+                System.out.println("left "+displacement);
+            }
+
+            if(head.x + 20 > 600){  //RIGHT
+
+            }else{
+                mid.setLocation(findMid(new Point(head.x + 20,head.y)));
+                midCherry.setLocation(findMid(Cheery.cheery));
+                displacement = (int) Math.sqrt(Math.pow(midCherry.x - mid.x,2) + Math.pow(midCherry.y - mid.y,2));
+
+                if(displacement < tempDisplacement){
+                    move = RIGHT;
+                }
+                System.out.println("right "+displacement);
+            }
+
+            System.out.println("direction"+ move);
+
             direction = move;
         }
 

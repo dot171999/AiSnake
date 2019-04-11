@@ -7,7 +7,8 @@ class Render extends JPanel {
     private  Cheery cheery = new Cheery();
 
     Render() {
-        setPreferredSize(new Dimension(601,681));
+        setPreferredSize(new Dimension(601,681)); //Grid = 601 * 601 px
+        setBackground(Color.BLACK);
     }
 
     static int box(int x){
@@ -17,7 +18,7 @@ class Render extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.BLUE);
+        g.setColor(Color.DARK_GRAY);
 
         int j,i,k=0;
         for(i=0;i<31;i++){
@@ -32,8 +33,5 @@ class Render extends JPanel {
 
         snakeBody.paintBody(g);
         cheery.paintCherry(g);
-
-        g.setColor(Color.BLACK);
-        g.fillRect(3,605,594,74);
     }
 }

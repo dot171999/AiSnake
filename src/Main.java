@@ -8,7 +8,8 @@ public class Main implements ActionListener{
     private Render render;
 
     private Main() {
-        JFrame jFrame = new JFrame("Snake");
+        char copyright = 169;
+        JFrame jFrame = new JFrame("Snake "+copyright+"DOT");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setResizable(false);
 

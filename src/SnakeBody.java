@@ -33,11 +33,13 @@ class SnakeBody extends Component {
 
         if((head.y - 1) % 20 == 0 && (head.x - 1) % 20 == 0) { // Run this function if snake's head completely in box/grid.
 
+            midCherry.setLocation(findMid(Cheery.cheery));
+
             if(head.y - 20 < 1){  //UP
-                // future addition.
+                // future update.
             }else{
                 mid.setLocation(findMid(new Point(head.x,head.y - 20)));
-                midCherry.setLocation(findMid(Cheery.cheery));
+
                 displacement = (int) Math.sqrt(Math.pow(midCherry.x - mid.x,2) + Math.pow(midCherry.y - mid.y,2)); // Formula to get displacement b/w two points.
                 tempDisplacement = displacement;
                 move = UP;
@@ -46,7 +48,6 @@ class SnakeBody extends Component {
             if(head.y + 20 > 600){  //DOWN
             }else{
                 mid.setLocation(findMid(new Point(head.x,head.y + 20)));
-                midCherry.setLocation(findMid(Cheery.cheery));
                 displacement = (int) Math.sqrt(Math.pow(midCherry.x - mid.x,2) + Math.pow(midCherry.y - mid.y,2));
 
                 if(displacement < tempDisplacement){
@@ -58,7 +59,6 @@ class SnakeBody extends Component {
             if(head.x - 20 < 1){  //LEFT
             }else{
                 mid.setLocation(findMid(new Point(head.x - 20,head.y)));
-                midCherry.setLocation(findMid(Cheery.cheery));
                 displacement = (int) Math.sqrt(Math.pow(midCherry.x - mid.x,2) + Math.pow(midCherry.y - mid.y,2));
 
                 if(displacement < tempDisplacement){
@@ -70,7 +70,6 @@ class SnakeBody extends Component {
             if(head.x + 20 > 600){  //RIGHT
             }else{
                 mid.setLocation(findMid(new Point(head.x + 20,head.y)));
-                midCherry.setLocation(findMid(Cheery.cheery));
                 displacement = (int) Math.sqrt(Math.pow(midCherry.x - mid.x,2) + Math.pow(midCherry.y - mid.y,2));
 
                 if(displacement < tempDisplacement){
@@ -108,21 +107,21 @@ class SnakeBody extends Component {
 
     void paintBody(Graphics g){ // Function that paints the snake's body.
 
-        g.setColor(Color.RED);
-
         past.add(new Point(head.x,head.y)); // Add every move of snake's head.
 
         shiftDirection(); // Calculate optimal direction.
 
-        //boundaryConditions(); // Future addition
+        //boundaryConditions(); // Future update
 
         if(doOverlap(head,Cheery.cheery)){ // If prey eaten then add a body part to snake.
             Cheery.generateCherry();
             snakeParts.add(new Point(past.get(past.size()-Cheery.score*5).x,past.get(past.size()-Cheery.score*5).y));
         }
 
+        g.setColor(Color.white);
         for (Point point : snakeParts) g.fillRect(point.x,point.y,19,19); // Paint all body parts of the snake if any.
 
+        g.setColor(Color.RED);
         g.fillRect(head.x,head.y,19,19); // Paint the snake's head.
     }
 

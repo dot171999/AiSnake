@@ -4,7 +4,7 @@ import java.awt.*;
 class Render extends JPanel {
 
     private SnakeBody snakeBody = new SnakeBody(); // Class that creates snake's body.
-    private  Cheery cheery = new Cheery(); // Class that randomly paints the prey.
+    private  Cherry cherry = new Cherry(); // Class that randomly paints the prey.
 
     Render() {
         setPreferredSize(new Dimension(601,601)); //Grid = 601 * 601 px
@@ -32,6 +32,6 @@ class Render extends JPanel {
         }
 
         snakeBody.paintBody(g); // function in SnakeBody class that paints the snake's parts.
-        cheery.paintCherry(g); // function in Cherry class that paints the prey.
+        cherry.paintCherry(g); // function in Cherry class that paints the prey.
     }
 }

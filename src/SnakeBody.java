@@ -9,7 +9,8 @@ class SnakeBody extends Component {
     private static final int UP = 1, DOWN = 2, LEFT = 3, RIGHT = 4; // Directions
     private static int direction = DOWN; // Initial direction set to down.
     private int move = DOWN; // temp variable to store direction.
-
+    private int i;
+    
     SnakeBody() { // Snake's head starts from (x,y) -> (1,1).
         this.head = new Point(Render.box(1),Render.box(1));
     }
@@ -25,56 +26,94 @@ class SnakeBody extends Component {
         y=(point.y + point.y + 19)/2;
         return new Point(x,y);
     }
-
+    
+    private int checkLeastDis(ArrayList<Integer> displacement){
+        int j;
+        int x=displacement.get(0);
+        for(j=1;j<Cherry.cherryCount;j++){
+            if(displacement.get(j)<x){
+                x=displacement.get(j);
+            }
+        }
+        return x;
+    }
     private void shiftDirection(){
         Point mid = new Point(); // Stores middle point of head's square.
-        Point midCherry = new Point(); // Stores middle point of the prey's square.
-        int displacement,tempDisplacement =600; // Stores displacement b/w snake's head and prey.
-
+        ArrayList<Point> midCherry = new ArrayList<>(); // Stores middle point of the prey's square.
+        ArrayList<Integer> displacement = new ArrayList<>();
+        int tempDisplacement =600; // Stores displacement b/w snake's head and prey.
+        int displacemenT;
+        
         if((head.y - 1) % 20 == 0 && (head.x - 1) % 20 == 0) { // Run this function if snake's head completely in box/grid.
-
-            midCherry.setLocation(findMid(Cheery.cheery));
+               
+            for(i=0;i<Cherry.cherryCount;i++){
+                midCherry.add(findMid(Cherry.cherry.get(i)));
+            }
+            
 
             if(head.y - 20 < 1){  //UP
                 // future update.
             }else{
                 mid.setLocation(findMid(new Point(head.x,head.y - 20)));
-
-                displacement = (int) Math.sqrt(Math.pow(midCherry.x - mid.x,2) + Math.pow(midCherry.y - mid.y,2)); // Formula to get displacement b/w two points.
-                tempDisplacement = displacement;
+                
+                for(i=0;i<Cherry.cherryCount;i++){
+                    displacement.add((int) Math.sqrt(Math.pow(midCherry.get(i).x - mid.x,2) + Math.pow(midCherry.get(i).y - mid.y,2))); // Formula to get displacement b/w two points.
+                }
+                       
+                tempDisplacement = checkLeastDis(displacement);
+                displacement.clear();
                 move = UP;
             }
 
             if(head.y + 20 > 600){  //DOWN
             }else{
                 mid.setLocation(findMid(new Point(head.x,head.y + 20)));
-                displacement = (int) Math.sqrt(Math.pow(midCherry.x - mid.x,2) + Math.pow(midCherry.y - mid.y,2));
-
-                if(displacement < tempDisplacement){
-                    move = DOWN;
-                    tempDisplacement = displacement;
+                
+                for(i=0;i<Cherry.cherryCount;i++){
+                    displacement.add((int) Math.sqrt(Math.pow(midCherry.get(i).x - mid.x,2) + Math.pow(midCherry.get(i).y - mid.y,2))); // Formula to get displacement b/w two points.
                 }
+                   
+                displacemenT = checkLeastDis(displacement);
+                
+                if(displacemenT < tempDisplacement){
+                    move = DOWN;
+                    tempDisplacement = displacemenT;
+                }
+                displacement.clear();
             }
 
             if(head.x - 20 < 1){  //LEFT
             }else{
                 mid.setLocation(findMid(new Point(head.x - 20,head.y)));
-                displacement = (int) Math.sqrt(Math.pow(midCherry.x - mid.x,2) + Math.pow(midCherry.y - mid.y,2));
-
-                if(displacement < tempDisplacement){
-                    move = LEFT;
-                    tempDisplacement = displacement;
+                
+                for(i=0;i<Cherry.cherryCount;i++){
+                    displacement.add((int) Math.sqrt(Math.pow(midCherry.get(i).x - mid.x,2) + Math.pow(midCherry.get(i).y - mid.y,2))); // Formula to get displacement b/w two points.
                 }
+
+                displacemenT = checkLeastDis(displacement);
+                
+                if(displacemenT < tempDisplacement){
+                    move = LEFT;
+                    tempDisplacement = displacemenT;
+                }
+                displacement.clear();
             }
 
             if(head.x + 20 > 600){  //RIGHT
             }else{
                 mid.setLocation(findMid(new Point(head.x + 20,head.y)));
-                displacement = (int) Math.sqrt(Math.pow(midCherry.x - mid.x,2) + Math.pow(midCherry.y - mid.y,2));
-
-                if(displacement < tempDisplacement){
-                    move = RIGHT;
+                
+                for(i=0;i<Cherry.cherryCount;i++){
+                    displacement.add((int) Math.sqrt(Math.pow(midCherry.get(i).x - mid.x,2) + Math.pow(midCherry.get(i).y - mid.y,2))); // Formula to get displacement b/w two points.
                 }
+
+                displacemenT = checkLeastDis(displacement);
+                
+                if(displacemenT < tempDisplacement){
+                    move = RIGHT;
+                    tempDisplacement = displacemenT;
+                }
+                displacement.clear();
             }
 
             direction = move; // Set direction to optimal direction.
@@ -112,13 +151,15 @@ class SnakeBody extends Component {
         shiftDirection(); // Calculate optimal direction.
 
         //boundaryConditions(); // Future update
-
-        if(doOverlap(head,Cheery.cheery)){ // If prey eaten then add a body part to snake.
-            Cheery.generateCherry();
-            snakeParts.add(new Point(past.get(past.size()-Cheery.score*5).x,past.get(past.size()-Cheery.score*5).y));
+        for(i=0;i<Cherry.cherryCount;i++){
+            if(doOverlap(head,Cherry.cherry.get(i))){ // If prey eaten then add a body part to snake.
+                Cherry.cherry.remove(i);
+                Cherry.generateCherry();           
+                snakeParts.add(new Point(past.get(past.size()-Cherry.score*5).x,past.get(past.size()-Cherry.score*5).y));
+            }
         }
-
-        g.setColor(Color.white);
+        
+        g.setColor(Color.pink);
         for (Point point : snakeParts) g.fillRect(point.x,point.y,19,19); // Paint all body parts of the snake if any.
 
         g.setColor(Color.RED);
